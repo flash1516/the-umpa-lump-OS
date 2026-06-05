@@ -17,4 +17,4 @@ makepkg -si
 cd ..
 rm -rf yay-bin
 yay -S floorp-bin pacseek-bin vesktop-bin
-
+mv sway ~/.config
