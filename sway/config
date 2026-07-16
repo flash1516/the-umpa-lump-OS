@@ -17,12 +17,14 @@ set $right l
 set $term foot
 # Your preferred application launcher
 set $menu wmenu-run
+# Wallpaper path (sway expands ~ but not $HOME, so use ~ here)
+set $wallpaper ~/.config/sway/wall.jpg
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output Virtual-1 resolution 1280x800 position 0,0
-output * bg /home/flash/.config/sway/wall.jpg fill
+output * bg $wallpaper fill
 #
 # Example configuration:
 #
@@ -32,16 +34,12 @@ output * bg /home/flash/.config/sway/wall.jpg fill
 
 ### Idle configuration
 #
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+# Lock the screen after 5 minutes idle, turn displays off after 10, and
+# always lock before the machine sleeps. Requires swayidle and swaylock.
+exec swayidle -w \
+         timeout 300 'swaylock -f -c 000000' \
+         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -f -c 000000'
 
 ### Input configuration
 #
@@ -60,6 +58,14 @@ output * bg /home/flash/.config/sway/wall.jpg fill
 #
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
+
+### Autostart
+#
+# A polkit agent is required for GUI apps to prompt for sudo/root
+# authentication (e.g. package managers, some settings apps).
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# Notification daemon.
+exec mako
 
 ### Key bindings
 # Basics:
@@ -228,8 +234,7 @@ bar {
     position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command ~/.config/sway/bar.sh 
+    status_command ~/.config/sway/bar.sh
 
     colors {
         statusline #ffffff
@@ -239,4 +244,3 @@ bar {
 }
 
 include /etc/sway/config.d/*
-
