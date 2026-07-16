@@ -1,4 +1,14 @@
-sudo pacman -S sway \
+sudo pacman -Syu
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
+cd ..
+rm -rf yay-bin
+yay -S floorp-bin \
+    pacseek-bin \
+    vesktop-bin \
+    sway \
     swaybg \
     foot \
     wmenu \
@@ -10,11 +20,4 @@ sudo pacman -S sway \
     github-cli \
     curl \
     wget
-sudo pacman -S --needed git base-devel
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-makepkg -si
-cd ..
-rm -rf yay-bin
-yay -S floorp-bin pacseek-bin vesktop-bin
 mv sway ~/.config
